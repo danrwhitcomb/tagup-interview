@@ -1,0 +1,14 @@
+{
+    "configurations": [{
+        "name": "App",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/app",
+        "program": "main.py",
+        "args": [
+            "-d",
+            "../data"
+        ],
+        "console": "integratedTerminal"
+    }]
+}
