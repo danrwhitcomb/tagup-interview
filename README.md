@@ -35,6 +35,8 @@ I approached technology and scoping decisions made in this project balancing the
 
 - Limited understanding of the customer's use cases led me to opt for simpler, more general technolgies rather than their potentially higher-performance counterparts. I didn't see a need for heavy optimization in many cases.
 
+- Some tools may be a better fit for a real production deployments but those tools tend to also be tricky to configure and need a lot of fuss. To reduce complexity, I tended to opt for tools that came with batteries already installed.
+
 - My existing skill set: There may be better tools for the job, but learning technologies outside my existing range would take too long for a project of this scope.
 
 - Running on a local machine: I made tradeoffs on technologies for this demo because I wanted it to be locally runnable by others. There may be better suited cloud-based options, but it would have expanded complexity and limited usability of the final demo. Specific tradeoffs I made are discussed below.

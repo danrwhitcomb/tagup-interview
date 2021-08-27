@@ -81,16 +81,6 @@ def clean_machine_metrics(conn):
     # I'm fairly certain theres a cleaner way to do this,
     # but this works at least
 
-    #  avg(metric_1) as metric_1_avg,
-    #                 avg(metric_2) as metric_2_avg,
-    #                 avg(metric_3) as metric_3_avg,
-    #                 avg(metric_4) as metric_4_avg,
-
-    #                 stddev(metric_1) as metric_1_stddev,
-    #                 stddev(metric_2) as metric_2_stddev,
-    #                 stddev(metric_3) as metric_3_stddev,
-    #                 stddev(metric_4) as metric_4_stddev
-
     with conn.cursor() as cursor:
         _clear_outliers(cursor, 'metric_1')
         _clear_outliers(cursor, 'metric_2')
