@@ -6,6 +6,8 @@ services:
     command:
       - -d
       - /data
+    environment:
+      PYTHONUNBUFFERED: 1
     links:
       - postgres
     depends_on:

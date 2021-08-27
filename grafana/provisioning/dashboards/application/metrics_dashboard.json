@@ -1,0 +1,794 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 1,
+    "iteration": 1630020149310,
+    "links": [],
+    "panels": [
+      {
+        "datasource": "Postgres",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "interval": "1m",
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [
+              {
+                "params": [
+                  "$__interval",
+                  "none"
+                ],
+                "type": "time"
+              },
+              {
+                "params": [
+                  "machine_name"
+                ],
+                "type": "column"
+              }
+            ],
+            "metricColumn": "machine_name",
+            "queryType": "randomWalk",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__timeGroupAlias(\"time\",$__interval),\n  machine_name AS metric,\n  max(metric_1) AS \"max\",\n  avg(metric_1) AS \"avg\",\n  min(metric_1) AS \"min\"\nFROM machine_metrics\nWHERE\n  machine_name in ([[machine]])\nGROUP BY 1,2\nORDER BY 1,2",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "max"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "alias"
+                }
+              ]
+            ],
+            "table": "machine_metrics",
+            "timeColumn": "\"time\"",
+            "timeColumnType": "timestamp",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              },
+              {
+                "datatype": "varchar",
+                "name": "",
+                "params": [
+                  "machine_name",
+                  "=",
+                  "'machine_16'"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "Metric 1 - Max, Avg, Min",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "Postgres",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 3,
+        "interval": "1m",
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [
+              {
+                "params": [
+                  "$__interval",
+                  "none"
+                ],
+                "type": "time"
+              },
+              {
+                "params": [
+                  "machine_name"
+                ],
+                "type": "column"
+              }
+            ],
+            "metricColumn": "machine_name",
+            "queryType": "randomWalk",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__timeGroupAlias(\"time\",$__interval),\n  machine_name AS metric,\n  max(metric_2) AS \"max\",\n  avg(metric_2) AS \"avg\",\n  min(metric_2) AS \"min\"\nFROM machine_metrics\nWHERE\n  machine_name in ([[machine]])\nGROUP BY 1,2\nORDER BY 1,2",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "max"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "alias"
+                }
+              ]
+            ],
+            "table": "machine_metrics",
+            "timeColumn": "\"time\"",
+            "timeColumnType": "timestamp",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              },
+              {
+                "datatype": "varchar",
+                "name": "",
+                "params": [
+                  "machine_name",
+                  "=",
+                  "'machine_16'"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "Metric 2 - Max, Avg, Min",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "Postgres",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 9
+        },
+        "id": 4,
+        "interval": "1m",
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [
+              {
+                "params": [
+                  "$__interval",
+                  "none"
+                ],
+                "type": "time"
+              },
+              {
+                "params": [
+                  "machine_name"
+                ],
+                "type": "column"
+              }
+            ],
+            "metricColumn": "machine_name",
+            "queryType": "randomWalk",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__timeGroupAlias(\"time\",$__interval),\n  machine_name AS metric,\n  max(metric_3) AS \"max\",\n  avg(metric_3) AS \"avg\",\n  min(metric_3) AS \"min\"\nFROM machine_metrics\nWHERE\n  machine_name in ([[machine]])\nGROUP BY 1,2\nORDER BY 1,2",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "max"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "alias"
+                }
+              ]
+            ],
+            "table": "machine_metrics",
+            "timeColumn": "\"time\"",
+            "timeColumnType": "timestamp",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              },
+              {
+                "datatype": "varchar",
+                "name": "",
+                "params": [
+                  "machine_name",
+                  "=",
+                  "'machine_16'"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "Metric 3 - Max, Avg, Min",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "Postgres",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 9
+        },
+        "id": 5,
+        "interval": "1m",
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [
+              {
+                "params": [
+                  "$__interval",
+                  "none"
+                ],
+                "type": "time"
+              },
+              {
+                "params": [
+                  "machine_name"
+                ],
+                "type": "column"
+              }
+            ],
+            "metricColumn": "machine_name",
+            "queryType": "randomWalk",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  $__timeGroupAlias(\"time\",$__interval),\n  machine_name AS metric,\n  max(metric_4) AS \"max\",\n  avg(metric_4) AS \"avg\",\n  min(metric_4) AS \"min\"\nFROM machine_metrics\nWHERE\n  machine_name in ([[machine]])\nGROUP BY 1,2\nORDER BY 1,2",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "max"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_1"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_2"
+                  ],
+                  "type": "alias"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "min"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "metric_3"
+                  ],
+                  "type": "alias"
+                }
+              ]
+            ],
+            "table": "machine_metrics",
+            "timeColumn": "\"time\"",
+            "timeColumnType": "timestamp",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              },
+              {
+                "datatype": "varchar",
+                "name": "",
+                "params": [
+                  "machine_name",
+                  "=",
+                  "'machine_16'"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "Metric 3 - Max, Avg, Min",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": false,
+    "schemaVersion": 30,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": [
+              "machine_3"
+            ],
+            "value": [
+              "machine_3"
+            ]
+          },
+          "datasource": "Postgres",
+          "definition": "select machine_name from machine_metrics group by 1",
+          "description": null,
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "Machine",
+          "multi": true,
+          "name": "machine",
+          "options": [],
+          "query": "select machine_name from machine_metrics group by 1",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 3,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "2018-10-02T13:15:22.174Z",
+      "to": "2019-05-14T11:53:51.608Z"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "ExampleCo Machine Data",
+    "uid": "FAzXBGVnk",
+    "version": 3
+  }

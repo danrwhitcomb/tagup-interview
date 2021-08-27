@@ -6,9 +6,14 @@ import boto3
 from decimal import Decimal
 
 import utils
-from repository import initialize_db, load_metric, Metric
+from repository import initialize_db, load_metric, clean_machine_metrics, Metric
+
+
+logging.info('Starting machine data ingestion!')
 
 utils.configure_logging()
+
+logging.info('Initializing database...')
 initialize_db()
 
 parser = argparse.ArgumentParser(description='Ingest machine timeseries')
@@ -21,7 +26,7 @@ data_dir_path = args.data_dir
 if not utils.validate_data_dir_path(data_dir_path):
     exit(1)
 
-
+logging.info('Loading data from directory {}'.format(data_dir_path))
 data_files = utils.get_files_in_dir(data_dir_path)
 
 for data_file in data_files:
@@ -38,3 +43,8 @@ for data_file in data_files:
             continue
 
         load_metric(metric)
+
+logging.info('Cleaning machine data...')
+clean_machine_metrics()
+
+logging.info('Machine data ingest complete!')

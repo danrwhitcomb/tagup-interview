@@ -2,10 +2,22 @@ import logging
 import csv
 import os
 from os import path
+import sys
 
 
 def configure_logging():
-    logging.basicConfig(format='%(levelname)s - %(asctime)-15s - %(message)s')
+    root = logging.getLogger()
+    root.setLevel(logging.INFO)
+
+    if (root.hasHandlers()):
+        root.handlers.clear()
+
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    root.addHandler(handler)
 
 
 def validate_data_dir_path(data_dir_path):
