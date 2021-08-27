@@ -27,13 +27,13 @@ Grafana will start at [`http://localhost:3000`](http://localhost:3000) by defaul
 
 Navigate to [`http://localhost:3000/dashboards`](http://localhost:3000/dashboards) and select the first item in the list to access the provided dashboard.
 
-# Technical architecture
+# Technical decisions and architecture
 
 ## Decision factors
 
 I approached technology and scoping decisions made in this project balancing the following factors:
 
-- Limited understanding of the customer's use cases led me to opt for simpler, more general technolgy solutions rather than their potentially higher-performance counterparts. I didn't see a need for heavy optimization in many cases.
+- Limited understanding of the customer's use cases led me to opt for simpler, more general technolgies rather than their potentially higher-performance counterparts. I didn't see a need for heavy optimization in many cases.
 
 - My existing skill set: There may be better tools for the job, but learning technologies outside my existing range would take too long for a project of this scope.
 
@@ -43,7 +43,7 @@ I approached technology and scoping decisions made in this project balancing the
 
 The problem called for simple CSV loading, transformation, and insertion into a database. Python has great built-in support for CSV management, an easy-to-use Postgres connector in `psycopg2` and - compared to other languages in my toolset - requires little boilerplate to get an application going.
 
-My Python isn't up to modern application standards - I use it for scripting exclusively - but I'm always confident I can blitz out a valuable script with it.
+My Python ecosystem knowledge isn't up to modern application standards - I use it for scripting exclusively - but I'm always confident I can blitz out a valuable script with it.
 
 ## Postgres
 
@@ -51,17 +51,15 @@ Postgres wasn't my first choice. I would have preferred to use a columnar databa
 
 Alas, I wanted to run all locally so the two columnar stores I'm experienced in weren't options.
 
-Postgres is well known, well supported, and still a very good option for some OLAP workloads. I didn't use it here, but this application would have been a nice use case for its table partitioning feature.
+Postgres is well known, well supported, and still a very good option for some OLAP workloads. I've used it within docker-compose before for other toy projects and knew it would be quick while also being a more than capable production option as well. I didn't use it here, but this application would have been a nice use case for its table partitioning feature as well.
 
 ## Grafana
 
-Visualizations for timeseries data are critical. They make it simple for a dev to visually debug their queries, and to convey information to an end user.
+Visualizations for timeseries data are critical. They make it simple for a dev to visually debug their queries, and a quick and dirty way to convey information to an end user.
 
-Writing a web UI for timeseries visualization would have been possible, but quite an undertaking. I'm sure there are some end user friendly options for visualizing timeseries data, but I've worked with Grafana in the past.
+Writing a web UI for timeseries visualization would have been possible, but quite an undertaking. I'm sure there are some end user friendly options for visualizing timeseries data, but I've worked with Grafana in the past. I was already familiar with its wide range of datasource capabilities and knew I'd be able to get something that looks pretty nice in a short period of time.
 
-I was already familiar with its wide range of datasource capabilities and knew I'd be able to get something that looks pretty nice in a short period of time.
-
-Its not the most non-technical user friendly interface, but the flexibility it enables for users is a killer feature.
+Its not the most non-technical user friendly interface, but the flexibility it enables for users is killer.
 
 ## Docker Compose
 
@@ -73,17 +71,15 @@ There are some solutions out there for local kubernetes that can do live-reloads
 
 ## Application
 
-## Data Loading
+### Data Loading
 
 The application accepts a path argument to a directory with CSVs in it. This argument is hard-coded in the `docker-compose.yml` file for purposes for quickly getting running, but the container itself can process from any path
 
 After some validation on the path, for each file we read each row and insert its contents into Postgres. I used a Python generator to only require a single row to be in-memory at a time. Given the size of the dataset reading it into memory wouldn't have been a problem, but I thought it would be non-risky optimization to make.
 
-## DB Schema
+### DB Schema
 
-I was debating between two schemas in my head.
-
-I went with the following:
+I was debating between two schemas. I went with the following:
 
 ```sql
 create table if not exists machine_metrics (
@@ -92,10 +88,11 @@ create table if not exists machine_metrics (
     metric_1 double precision,
     metric_2 double precision,
     metric_3 double precision,
-    metric_4 double precision);
+    metric_4 double precision
+);
 ```
 
-The alternative was more like a true timeseries DB might store it. More general, likely a more performant for timeseries operations, but loosens the relationship between the metrics coming from a single machine, and getting the indexes right is a little more tricky:
+The alternative was more like a true timeseries DB might store it. More general, likely more performant for timeseries operations, but loosens the relationship between the metrics coming from a single machine, and getting the indexes right is a little more tricky:
 
 ```sql
 create table if not exists machine_metrics (
@@ -107,7 +104,7 @@ create table if not exists machine_metrics (
 
 I went with the former because it kept the data simple, close to its original form, and for an OLAP use case I thought it would be more future proof.
 
-## Data Cleaning
+### Data Cleaning
 
 There were a number of outliers in each timeseries that needed removal. I calculated the [interquartile range](https://en.wikipedia.org/wiki/Interquartile_range#Outliers) for each timeseries and used it to eliminate most outliers.
 
